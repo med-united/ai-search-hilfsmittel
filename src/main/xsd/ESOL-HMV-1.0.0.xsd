@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:GI4X-basis="GI4X:/xml-schema/GI4X-basis/2.0" xmlns:hv="GI4X:/xml-schema/ESOL-HMV/1.0" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="GI4X:/xml-schema/ESOL-HMV/1.0" version="1.0.0">
+	<xs:import namespace="GI4X:/xml-schema/GI4X-basis/2.0" schemaLocation="GI4X-basis-2.0.0.xsd"/>
+	<xs:complexType name="HMV_Ctp">
+		<xs:annotation>
+			<xs:documentation>Hilfsmittelverzeichnis</xs:documentation>
+		</xs:annotation>
+		
+	<xs:complexContent><xs:extension base="GI4X-basis:Wurzel_Ctp"><xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="HMV_GRUPPE" type="hv:HMV_GRUPPE_Ctp"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="HMV_ORT" type="hv:HMV_ORT_Ctp"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="HMV_UNTERGRUPPE" type="hv:HMV_UNTERGRUPPE_Ctp"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="HMV_ART" type="hv:HMV_ART_Ctp"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="HMV_PRODUKT" type="hv:HMV_PRODUKT_Ctp"/>
+		</xs:sequence></xs:extension></xs:complexContent></xs:complexType>
+	<xs:complexType name="HMV_GRUPPE_Ctp">
+		<xs:annotation>
+			<xs:documentation>Daten zu Hilfsmittel Produktgruppen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="GRUPPE" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Gruppennummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ONL_STATUS" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Online Status</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="BEZEICHNUNG">
+				<xs:annotation>
+					<xs:documentation>Bezeichnung der Hilfsmittelgruppe</xs:documentation>
+				</xs:annotation>
+			<xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="255"/><xs:minLength value="1"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="DEFINITION" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Definition der Hilfsmittelgruppe</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="INDIKATION" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Beschreibung der Indikation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="QUERVERWEISE" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Querverweise auf andere Gruppen und Hinweise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HMV_ORT_Ctp">
+		<xs:annotation>
+			<xs:documentation>Daten zu Anwendungsorten von Hilfsmitteln</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="ORT" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Anwendungsortnummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ONL_STATUS" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Online Status</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="BEZEICHNUNG">
+				<xs:annotation>
+					<xs:documentation>Bezeichnung des Anwendungsortes</xs:documentation>
+				</xs:annotation>
+			<xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="255"/><xs:minLength value="1"/></xs:restriction></xs:simpleType></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HMV_UNTERGRUPPE_Ctp">
+		<xs:annotation>
+			<xs:documentation>Daten zu Hilfsmittel Produktuntergruppen</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="GRUPPE" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Gruppennummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="ORT" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Anwendungsortnummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="UNTERGRUPPE" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Untergruppennummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ONL_STATUS" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Online Status</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="BEZEICHNUNG">
+				<xs:annotation>
+					<xs:documentation>Bezeichnung der Untergruppe</xs:documentation>
+				</xs:annotation>
+			<xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="255"/><xs:minLength value="1"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ANFORDERUNGEN" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Anforderungen an Medizin und Technik</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HMV_ART_Ctp">
+		<xs:annotation>
+			<xs:documentation>Daten zur Produktart von Hilfsmitteln (z.B. Milchpume, Gehwagen)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="GRUPPE" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Gruppennummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="ORT" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Anwendungsortnummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="UNTERGRUPPE" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Untergruppennummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="ART" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Produktart - Nummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ONL_STATUS" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Online Status</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="BEZEICHNUNG">
+				<xs:annotation>
+					<xs:documentation>Bezeichnung der Hilfsmittelart</xs:documentation>
+				</xs:annotation>
+			<xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="255"/><xs:minLength value="1"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="BESCHREIBUNG" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Beschreibung der Hilfsmittelart</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="INDIKATION" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Indikation der Hilfsmittelart</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HMV_PRODUKT_Ctp">
+		<xs:annotation>
+			<xs:documentation>Produktverzeichnis Hilfsmittel</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="GRUPPE" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Gruppennummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="ORT" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Anwendungsortnummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="UNTERGRUPPE" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Untergruppennummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="ART" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Produktart - Nummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="PRODUKT" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Produktnummer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ONL_STATUS" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Online Status</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="BEZEICHNUNG">
+				<xs:annotation>
+					<xs:documentation>Produktbezeichnung</xs:documentation>
+				</xs:annotation>
+			<xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="255"/><xs:minLength value="1"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="HERSTELLER">
+				<xs:annotation>
+					<xs:documentation>Name des Herstellers</xs:documentation>
+				</xs:annotation>
+			<xs:simpleType><xs:restriction base="xs:string"><xs:maxLength value="255"/><xs:minLength value="1"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="MERKMALE" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Merkmale des Produkts</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="AUFNAHMEDATUM" type="GI4X-basis:Datum_Stp">
+				<xs:annotation>
+					<xs:documentation>Datum der Aufnahme in das Hilfsmittelverzeichnis</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="AENDERUNGSDATUM" type="GI4X-basis:Datum_Stp">
+				<xs:annotation>
+					<xs:documentation>Datum der letzten Änderung</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+<xs:element name="HMV" type="hv:HMV_Ctp"/></xs:schema>

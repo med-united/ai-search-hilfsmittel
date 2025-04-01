@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.service.health</groupId>
+	<artifactId>ai-search-hilfsmittel</artifactId>
+	<version>1.2-SNAPSHOT</version>
+	<name>JAXB ISO 11783 Java Classes</name>
+	<description>This project contains generated JAXB classes based on the XSDs schemas for the ISO 11783 standard: https://www.isobus.net/isobus/file/supportingDocuments</description>
+	<url>https://github.com/ManuelB/ai-search-hilfsmittel/</url>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<properties>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<organization>
+		<name>Incentergy GmbH</name>
+		<url>http://www.incentergy.de</url>
+	</organization>
+	<scm>
+		<url>https://github.com/ManuelB/ai-search-hilfsmittel</url>
+		<connection>scm:git:ssh://git@github.com/ManuelB/ai-search-hilfsmittel.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/ManuelB/ai-search-hilfsmittel.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	<developers>
+		<developer>
+			<id>Manuel_B</id>
+			<name>Manuel Blechschmidt</name>
+			<email>manuel.blechschmidt@service-health.de</email>
+		</developer>
+	</developers>
+
+	<!--
+	     mvn release:prepare
+	     mvn release:perform -Darguments="-Dgpg.passphrase='' -DaltDeploymentRepository=sonatype-nexus-staging::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+	     #  https://oss.sonatype.org/#stagingRepositories
+	-->
+	<issueManagement>
+		<system>Github</system>
+		<url>https://github.com/ManuelB/ai-search-hilfsmittel/issues</url>
+	</issueManagement>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.pinecone/pinecone-client -->
+		<dependency>
+			<groupId>io.pinecone</groupId>
+			<artifactId>pinecone-client</artifactId>
+			<version>4.0.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>2.5.0</version>
+				<executions>
+					<execution>
+						<id>xjc</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- The package of your generated sources -->
+					<packageName>de.service.health.hilfsmittel.xsd</packageName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
