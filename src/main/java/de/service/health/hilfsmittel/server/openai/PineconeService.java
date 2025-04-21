@@ -22,7 +22,7 @@ public class PineconeService {
 
     HttpClient client = HttpClient.newHttpClient();
 
-    public int upsert(String id, List<Double> embedding, String text) throws Exception {
+    public int upsert(String id, List<Double> embedding, String metadata) throws Exception {
         String vectorJson = embedding.stream()
             .map(Object::toString)
             .collect(Collectors.joining(","));
@@ -37,7 +37,7 @@ public class PineconeService {
                 }
               ]
             }
-            """.formatted(id, vectorJson, text.replace("\"", "\\\""));
+            """.formatted(id, vectorJson, metadata.replace("\"", "\\\""));
 
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(openAIConfig.getPineconeIndexUrl() + "/vectors/upsert"))

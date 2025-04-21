@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.service.health</groupId>
-	<artifactId>ai-search-hilfsmittel</artifactId>
+	<artifactId>ai-search</artifactId>
 	<version>1.2-SNAPSHOT</version>
 	<name>JAXB ISO 11783 Java Classes</name>
 	<description>This project contains generated JAXB classes based on the XSDs schemas for the ISO 11783 standard:
@@ -109,6 +109,10 @@
 			<groupId>jakarta.xml.ws</groupId>
 			<artifactId>jakarta.xml.ws-api</artifactId>
 			<version>4.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
 		<dependency>

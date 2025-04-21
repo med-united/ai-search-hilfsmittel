@@ -38,9 +38,12 @@ public class EmbeddingService {
             .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        JsonObject json = Json.createReader(new StringReader(response.body())).readObject();
-        JsonArray arr = json.getJsonArray("data").getJsonObject(0).getJsonArray("embedding");
-
-        return arr.stream().map(v -> ((JsonNumber) v).doubleValue()).toList();
+        int statusCode = response.statusCode();
+        if (statusCode == 200) {
+            JsonObject json = Json.createReader(new StringReader(response.body())).readObject();
+            JsonArray arr = json.getJsonArray("data").getJsonObject(0).getJsonArray("embedding");
+            return arr.stream().map(v -> ((JsonNumber) v).doubleValue()).toList();
+        }
+        throw new IllegalStateException("https://api.openai.com/v1/embeddings [statusCode = %d]".formatted(statusCode));
     }
 }
