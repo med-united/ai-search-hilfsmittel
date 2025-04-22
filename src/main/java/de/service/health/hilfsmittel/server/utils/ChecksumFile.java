@@ -40,15 +40,6 @@ public class ChecksumFile {
         }
     }
 
-    // public Set<String> getChecksums() throws Exception {
-    //     lock.readLock().lock();
-    //     try {
-    //         return new HashSet<>(readLines(file, ISO_8859_1));
-    //     } finally {
-    //         lock.readLock().unlock();
-    //     }
-    // }
-
     public boolean contains(String checksum) throws Exception {
         lock.readLock().lock();
         try {
