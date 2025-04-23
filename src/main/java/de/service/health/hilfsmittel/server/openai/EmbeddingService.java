@@ -14,6 +14,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
+import static de.service.health.hilfsmittel.server.utils.Utils.clean;
+
 @ApplicationScoped
 public class EmbeddingService {
 
@@ -23,27 +25,28 @@ public class EmbeddingService {
     HttpClient client = HttpClient.newHttpClient();
 
     public List<Double> getEmbedding(String text) throws Exception {
-        String body = """
+        String payload = """
         {
           "input": "%s",
           "model": "%s"
         }
-        """.formatted(text, openAIConfig.getOpenaiModel());
+        """.formatted(clean(text), openAIConfig.getOpenaiModel());
 
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create("https://api.openai.com/v1/embeddings"))
             .header("Authorization", "Bearer " + openAIConfig.getOpenaiKey())
             .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(body))
+            .POST(HttpRequest.BodyPublishers.ofString(payload))
             .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         int statusCode = response.statusCode();
+        String body = response.body();
         if (statusCode == 200) {
-            JsonObject json = Json.createReader(new StringReader(response.body())).readObject();
+            JsonObject json = Json.createReader(new StringReader(body)).readObject();
             JsonArray arr = json.getJsonArray("data").getJsonObject(0).getJsonArray("embedding");
             return arr.stream().map(v -> ((JsonNumber) v).doubleValue()).toList();
         }
-        throw new IllegalStateException("https://api.openai.com/v1/embeddings [statusCode = %d]".formatted(statusCode));
+        throw new IllegalStateException("https://api.openai.com/v1/embeddings [statusCode = %d] - %s".formatted(statusCode, body));
     }
 }

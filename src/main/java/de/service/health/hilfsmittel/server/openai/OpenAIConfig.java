@@ -8,6 +8,12 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @ApplicationScoped
 public class OpenAIConfig {
 
+    @ConfigProperty(name = "openai.async", defaultValue = "true")
+    boolean openaiAsync;
+
+    @ConfigProperty(name = "openai.batch.size", defaultValue = "50")
+    int batchSize;
+
     @ConfigProperty(name = "openai.api.key")
     String openaiKey;
 

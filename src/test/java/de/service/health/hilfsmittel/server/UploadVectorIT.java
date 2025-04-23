@@ -25,17 +25,16 @@ public class UploadVectorIT {
     public void equipmentUploadedAndCanBeFound() throws Exception {
         Collection<HMVPRODUKTCtp> products = equipmentService.prepareVectors(XML_RESOURCE_PATH, 3, false);
 
-        products.forEach(product -> {
-            given()
-                .queryParams(Map.of("q", "Welches medizinische Gerät kann ich zum Absaugen von Sekreten verwenden?"))
-                .when()
-                .get("/vector/search")
-                .then()
-                .body(containsString(product.getBEZEICHNUNG()))
-                .body(containsString("HICO-Rapidovac 791-16; Art.-Nr.: 490060"))
-                .body(containsString("Vacumaster M 20; Art.-Nr.: M 201"))
-                .statusCode(200);
-        });
+        products.forEach(product -> given()
+            .queryParams(Map.of("q", "Welches medizinische Gerät kann ich zum Absaugen von Sekreten verwenden?"))
+            .when()
+            .get("/vector/search")
+            .then()
+            .body(containsString(product.getBEZEICHNUNG()))
+            .body(containsString("HICO-Rapidovac 791-16; Art.-Nr.: 490060"))
+            .body(containsString("Vacumaster M 20; Art.-Nr.: M 201"))
+            .statusCode(200)
+        );
     }
 
     @Test

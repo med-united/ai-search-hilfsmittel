@@ -5,6 +5,8 @@ import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.StringReader;
 import java.net.URI;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class PineconeService {
+
+    private static final Logger log = LoggerFactory.getLogger(PineconeService.class.getName());
 
     @Inject
     OpenAIConfig openAIConfig;
@@ -48,6 +52,28 @@ public class PineconeService {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response.statusCode();
+    }
+
+    public int upsert(String vectorArray) throws Exception {
+        String body = """
+            {
+              "vectors": %s
+            }
+            """.formatted(vectorArray);
+
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(openAIConfig.getPineconeIndexUrl() + "/vectors/upsert"))
+            .header("Api-Key", openAIConfig.getPineconeApiKey())
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(body))
+            .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        int statusCode = response.statusCode();
+        if (statusCode == 200) {
+            log.info(response.body());
+        }
+        return statusCode;
     }
 
     public List<String> query(List<Double> embedding, int topK) throws Exception {
