@@ -4,6 +4,7 @@ git pull
 mvn clean package -Dquarkus.package.type=fast-jar -DskipTests
 sudo cp -r target/quarkus-app/* /opt/ai-search/
 sudo cp src/main/resources/application.properties /opt/ai-search/config/
+sudo cp sha256checksums /opt/ai-search/
 sudo cp linux-service/run.sh /opt/ai-search/
 sudo cp linux-service/aisearch.service /etc/systemd/system/
 sudo systemctl daemon-reload
