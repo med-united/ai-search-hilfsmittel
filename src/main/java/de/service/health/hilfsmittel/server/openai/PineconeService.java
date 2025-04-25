@@ -1,5 +1,6 @@
 package de.service.health.hilfsmittel.server.openai;
 
+import de.service.health.hilfsmittel.xsd.HMVPRODUKTCtp;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.json.Json;
@@ -14,7 +15,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static de.service.health.hilfsmittel.server.utils.Utils.as;
 
 @ApplicationScoped
 public class PineconeService {
@@ -76,7 +80,7 @@ public class PineconeService {
         return statusCode;
     }
 
-    public List<String> query(List<Double> embedding, int topK) throws Exception {
+    public List<HMVPRODUKTCtp> query(List<Double> embedding, int topK) throws Exception {
         String vectorJson = embedding.stream()
             .map(Object::toString)
             .collect(Collectors.joining(","));
@@ -102,6 +106,15 @@ public class PineconeService {
 
         return matches.stream()
             .map(v -> ((JsonObject) v).getJsonObject("metadata").getString("text"))
+            .map(source -> {
+                try {
+                    return as(source, HMVPRODUKTCtp.class);
+                } catch (Exception e) {
+                    log.error("Error while parsing %s -> %s".formatted(source, e.getMessage()));
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
             .toList();
     }
 }

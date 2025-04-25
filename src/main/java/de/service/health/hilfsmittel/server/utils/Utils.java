@@ -28,8 +28,8 @@ public class Utils {
             .replace("\"", "'");
     }
 
-    public static ObjectNode asObjectNode(Object object) {
-        return OBJECT_MAPPER.valueToTree(object);
+    public static <T> T as(String source, Class<T> clazz) throws Exception {
+        return OBJECT_MAPPER.readValue(source, clazz);
     }
 
     public static String asString(Object object) throws JsonProcessingException {
