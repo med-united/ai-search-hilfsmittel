@@ -82,8 +82,8 @@ public class EquipmentServiceAsync extends AbstractEquipmentService {
     public Collection<HMVPRODUKTCtp> prepareVectors(String path, int limit, boolean failFast) throws Exception {
         ChecksumFile checksumFile = new ChecksumFile();
         Set<String> checksums = checksumFile.getChecksums();
-        List<HMVPRODUKTCtp> hmvproduktCtps = loadProducts(path, limit);
-        List<ProductInfo> products = hmvproduktCtps.stream().map(product -> {
+        List<HMVPRODUKTCtp> rawProducts = loadProducts(path, limit);
+        List<ProductInfo> products = rawProducts.stream().map(product -> {
             String merkmale = product.getMERKMALE();
             byte[] merkmaleBytes = merkmale.getBytes(UTF_8);
             String checksum = checksumFile.calculateChecksum(merkmaleBytes);

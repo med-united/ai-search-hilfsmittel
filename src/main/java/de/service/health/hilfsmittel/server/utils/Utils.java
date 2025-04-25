@@ -19,7 +19,13 @@ public class Utils {
     public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public static String clean(String source) {
-        return source.replace("\r\n", "").replace("\n", "").replace("\r", "").replace("\t", " ").replace("\"", "'");
+        return source
+            .replace("\\", "")
+            .replace("\r\n", "")
+            .replace("\n", "")
+            .replace("\r", "")
+            .replace("\t", " ")
+            .replace("\"", "'");
     }
 
     public static ObjectNode asObjectNode(Object object) {
