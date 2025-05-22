@@ -31,7 +31,7 @@ public abstract class AbstractEquipmentService {
         unmarshaller = JAXBContext.newInstance(Root.class).createUnmarshaller();
     }
 
-    protected List<HMVPRODUKTCtp> loadProducts(String path, int limit) throws Exception {
+    public List<HMVPRODUKTCtp> loadProducts(String path, int limit) throws Exception {
         try (InputStream is = EquipmentService.class.getResourceAsStream(path)) {
             if (is == null) {
                 throw new IllegalArgumentException("20250228_HMV.xml is not found");

@@ -16,7 +16,6 @@ import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,8 @@ public class EquipmentServiceAsync extends AbstractEquipmentService {
         if (openAIConfig.isOpenaiAsync()) {
             productExecutor = Executors.newFixedThreadPool(openAIConfig.getBatchSize());
             try {
-                prepareVectors(XML_RESOURCE_PATH, MAX_VALUE, true);
+                List<HMVPRODUKTCtp> rawProducts = loadProducts(XML_RESOURCE_PATH, MAX_VALUE);
+                prepareVectors(rawProducts, true);
             } catch (Exception e) {
                 log.error("Error while preparing search base for " + XML_RESOURCE_PATH, e);
             }
@@ -79,10 +79,9 @@ public class EquipmentServiceAsync extends AbstractEquipmentService {
         }
     }
 
-    public Collection<HMVPRODUKTCtp> prepareVectors(String path, int limit, boolean failFast) throws Exception {
+    public void prepareVectors(List<HMVPRODUKTCtp> rawProducts, boolean failFast) throws Exception {
         ChecksumFile checksumFile = new ChecksumFile();
         Set<String> checksums = checksumFile.getChecksums();
-        List<HMVPRODUKTCtp> rawProducts = loadProducts(path, limit);
         List<ProductInfo> products = rawProducts.stream().map(product -> {
             String merkmale = product.getMERKMALE();
             byte[] merkmaleBytes = merkmale.getBytes(UTF_8);
@@ -99,8 +98,8 @@ public class EquipmentServiceAsync extends AbstractEquipmentService {
         }).filter(Objects::nonNull).toList();
 
         StopWatch watch = StopWatch.createStarted();
-        AtomicInteger counter = new AtomicInteger(checksums.size());
         int size = products.size();
+        AtomicInteger counter = new AtomicInteger(0);
         int batchSize = openAIConfig.getBatchSize();
         for (int i = 0; i < size; i += batchSize) {
             int toIndex = Math.min(i + batchSize, size);
@@ -115,7 +114,6 @@ public class EquipmentServiceAsync extends AbstractEquipmentService {
             }
         }
         log.info("Async uploading %d products from 20250228_HMV.xml to Pinecone took %s".formatted(counter.get(), watch.formatTime()));
-        return products.stream().map(productInfo -> productInfo.product).toList();
     }
 
     private Set<ProductInfo> prepareEmbeddings(Set<ProductInfo> batchList) {

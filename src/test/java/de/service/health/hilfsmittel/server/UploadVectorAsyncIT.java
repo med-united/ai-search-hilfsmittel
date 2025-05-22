@@ -7,12 +7,13 @@ import io.quarkus.test.junit.TestProfile;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static de.service.health.hilfsmittel.server.equipment.EquipmentService.XML_RESOURCE_PATH;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @QuarkusTest
 @TestProfile(AiTestProfile.class)
@@ -23,16 +24,17 @@ public class UploadVectorAsyncIT {
 
     @Test
     public void equipmentUploadedAndCanBeFound() throws Exception {
-        Collection<HMVPRODUKTCtp> products = equipmentService.prepareVectors(XML_RESOURCE_PATH, 100, false);
+        List<HMVPRODUKTCtp> products = equipmentService.loadProducts(XML_RESOURCE_PATH, 100);
+        assertFalse(products.isEmpty());
 
-        products.forEach(product -> given()
+        equipmentService.prepareVectors(products, true);
+
+        given()
             .queryParams(Map.of("q", "Welches medizinische Gerät kann ich zum Absaugen von Sekreten verwenden?"))
             .when()
-            .get("/vector/search")
+            .get("/equipment")
             .then()
-            .body(containsString("Ratiomed Sekret-Absauggerät AC20; Art.-Nr.: 8710401"))
-            .statusCode(200)
-        );
+            .body(containsString("Servoport 3000 s Absauggerät netzabhängig"))
+            .statusCode(200);
     }
-
 }
